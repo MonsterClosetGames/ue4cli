@@ -1,6 +1,6 @@
-from .UnrealManagerException import UnrealManagerException
-from .UnrealManagerBase import UnrealManagerBase
-from .Utility import Utility
+from UnrealManagerException import UnrealManagerException
+from UnrealManagerBase import UnrealManagerBase
+from Utility import Utility
 import glob, os, platform
 
 # The (_)winreg module is named differently between Python 2.x and Python 3.x
@@ -42,7 +42,7 @@ class UnrealManagerWindows(UnrealManagerBase):
 		except:
 			pass
 		
-		raise UnrealManagerException('could not detect the location of GenerateProjectFiles.bat or UnrealVersionSelector.exe.\nThis typically indicates that .uproject files are not correctly associated with UE4.')
+		raise UnrealManagerException('could not detect the location of GenerateProjectFiles.bat or UnrealVersionSelector.exe.\nThis typically indicates that .uproject files are not correctly associated with UE.')
 	
 	def getRunUATScript(self):
 		return self.getEngineRoot() + '\\Engine\\Build\\BatchFiles\\RunUAT.bat'
@@ -53,7 +53,7 @@ class UnrealManagerWindows(UnrealManagerBase):
 		genScript = self.getGenerateScript()
 		projectFile = self.getProjectDescriptor(dir)
 		print(projectFile)
-		if '.ue4\\GenerateProjectFiles.bat' in genScript:
+		if '.ue\\GenerateProjectFiles.bat' in genScript:
 			Utility.run([genScript, projectFile], raiseOnError=True)
 		else:
 			super(UnrealManagerWindows, self).generateProjectFiles(dir, args)
@@ -88,7 +88,7 @@ class UnrealManagerWindows(UnrealManagerBase):
 	def _customBatchScriptDir(self):
 		
 		# If the script directory doesn't already exist, attempt to create it
-		scriptDir = os.path.join(os.environ['HOMEDRIVE'] + os.environ['HOMEPATH'], '.ue4')
+		scriptDir = os.path.join(os.environ['HOMEDRIVE'] + os.environ['HOMEPATH'], '.ue')
 		try:
 			os.makedirs(scriptDir)
 		except:

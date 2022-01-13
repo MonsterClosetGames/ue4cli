@@ -150,5 +150,5 @@ class Utility:
 		"""
 		Prints a command if verbose output is enabled
 		"""
-		if os.environ.get('UE4CLI_VERBOSE', '0') == '1':
-			Utility.printStderr('[UE4CLI] EXECUTE COMMAND:', command)
+		if os.environ.get('UECLI_VERBOSE', '0') == '1':
+			Utility.printStderr('[UECLI] EXECUTE COMMAND:', command)

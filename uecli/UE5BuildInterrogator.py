@@ -1,10 +1,11 @@
-from .ThirdPartyLibraryDetails import ThirdPartyLibraryDetails
-from .UnrealManagerException import UnrealManagerException
-from .CachedDataManager import CachedDataManager
-from .Utility import Utility
+from ThirdPartyLibraryDetails import ThirdPartyLibraryDetails
+from UnrealManagerException import UnrealManagerException
+from CachedDataManager import CachedDataManager
+from Utility import Utility
 import json, os, platform, shutil, tempfile
 
-class UE4BuildInterrogator(object):
+# For now, it's mostly same as UE4, maybe it could be merged... to be reconsided.
+class UE5BuildInterrogator(object):
 	
 	def __init__(self, engineRoot, engineVersion, engineVersionHash, runUBTFunc):
 		self.engineRoot = os.path.realpath(engineRoot)
@@ -15,7 +16,7 @@ class UE4BuildInterrogator(object):
 	
 	def list(self, platformIdentifier, configuration, libOverrides = {}):
 		"""
-		Returns the list of supported UE4-bundled third-party libraries
+		Returns the list of supported UE5-bundled third-party libraries
 		"""
 		modules = self._getThirdPartyLibs(platformIdentifier, configuration)
 		return sorted([m['Name'] for m in modules] + [key for key in libOverrides])
@@ -158,15 +159,15 @@ class UE4BuildInterrogator(object):
 		# command will fail trying to rebuild UnrealHeaderTool.
 		sentinelFile = os.path.join(self.engineRoot, 'Engine', 'Build', 'InstalledBuild.txt')
 		sentinelBackup = sentinelFile + '.bak'
-		renameSentinel = os.path.exists(sentinelFile) and os.environ.get('UE4CLI_SENTINEL_RENAME', '0') == '1'
+		renameSentinel = os.path.exists(sentinelFile) and os.environ.get('UECLI_SENTINEL_RENAME', '0') == '1'
 		if renameSentinel == True:
 			shutil.move(sentinelFile, sentinelBackup)
 		
 		# Invoke UnrealBuildTool in JSON export mode (make sure we specify gathering mode, since this is a prerequisite of JSON export)
 		# (Ensure we always perform sentinel file cleanup even when errors occur)
 		try:
-			args = ['-Mode=JsonExport', '-OutputFile=' +jsonFile ] if self.engineVersion['MinorVersion'] >= 22 else ['-gather', '-jsonexport=' + jsonFile, '-SkipBuild']
-			self.runUBTFunc('UE4Editor', platformIdentifier, configuration, args)
+			args = ['-Mode=JsonExport', '-OutputFile=' +jsonFile ]
+			self.runUBTFunc('UnrealEditor', platformIdentifier, configuration, args)
 		finally:
 			if renameSentinel == True:
 				shutil.move(sentinelBackup, sentinelFile)
