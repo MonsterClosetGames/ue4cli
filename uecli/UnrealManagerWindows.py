@@ -1,6 +1,6 @@
-from UnrealManagerException import UnrealManagerException
-from UnrealManagerBase import UnrealManagerBase
-from Utility import Utility
+from .UnrealManagerException import UnrealManagerException
+from .UnrealManagerBase import UnrealManagerBase
+from .Utility import Utility
 import glob, os, platform
 
 # The (_)winreg module is named differently between Python 2.x and Python 3.x

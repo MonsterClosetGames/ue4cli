@@ -1,5 +1,5 @@
-from ConfigurationManager import ConfigurationManager
-from JsonDataManager import JsonDataManager
+from .ConfigurationManager import ConfigurationManager
+from .JsonDataManager import JsonDataManager
 import os, shutil
 
 class CachedDataManager(object):

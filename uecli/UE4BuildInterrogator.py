@@ -1,7 +1,7 @@
-from ThirdPartyLibraryDetails import ThirdPartyLibraryDetails
-from UnrealManagerException import UnrealManagerException
-from CachedDataManager import CachedDataManager
-from Utility import Utility
+from .ThirdPartyLibraryDetails import ThirdPartyLibraryDetails
+from .UnrealManagerException import UnrealManagerException
+from .CachedDataManager import CachedDataManager
+from .Utility import Utility
 import json, os, platform, shutil, tempfile
 
 class UE4BuildInterrogator(object):

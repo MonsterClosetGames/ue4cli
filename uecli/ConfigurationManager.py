@@ -1,4 +1,4 @@
-from JsonDataManager import JsonDataManager
+from .JsonDataManager import JsonDataManager
 import os, platform
 
 class ConfigurationManager(object):
