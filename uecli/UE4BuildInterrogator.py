@@ -158,7 +158,7 @@ class UE4BuildInterrogator(object):
 		# command will fail trying to rebuild UnrealHeaderTool.
 		sentinelFile = os.path.join(self.engineRoot, 'Engine', 'Build', 'InstalledBuild.txt')
 		sentinelBackup = sentinelFile + '.bak'
-		renameSentinel = os.path.exists(sentinelFile) and os.environ.get('UE4CLI_SENTINEL_RENAME', '0') == '1'
+		renameSentinel = os.path.exists(sentinelFile) and os.environ.get('UECLI_SENTINEL_RENAME', '0') == '1'
 		if renameSentinel == True:
 			shutil.move(sentinelFile, sentinelBackup)
 		

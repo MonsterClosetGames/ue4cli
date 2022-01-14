@@ -26,7 +26,7 @@ SUPPORTED_COMMANDS = {
 	},
 	
 	'clearcache': {
-		'description': 'Clears any cached data that ue4cli has stored',
+		'description': 'Clears any cached data that uecli has stored',
 		'action': lambda m, args: m.clearCachedData(),
 		'args': None
 	},
@@ -148,7 +148,7 @@ SUPPORTED_COMMANDS = {
 COMMAND_GROUPINGS = [
 	{
 		'name': 'Configuration-related commands',
-		'description': 'These commands control the configuration of ue4cli:',
+		'description': 'These commands control the configuration of uecli:',
 		'commands': ['setroot', 'clearroot', 'clearcache']
 	},
 	{
@@ -163,7 +163,7 @@ COMMAND_GROUPINGS = [
 	},
 	{
 		'name': 'Library-related commands',
-		'description': 'These commands are for developers compiling modules that need to build against\nUE4-bundled third-party libs for purposes of interoperability with the engine:',
+		'description': 'These commands are for developers compiling modules that need to build against\nUE-bundled third-party libs for purposes of interoperability with the engine:',
 		'commands': ['libs', 'cxxflags', 'ldflags', 'cmakeflags', 'includedirs', 'libfiles', 'defines']
 	},
 	{
@@ -173,7 +173,7 @@ COMMAND_GROUPINGS = [
 	},
 	{
 		'name': 'Commands defined by plugins',
-		'description': 'These commands are defined by currently installed ue4cli plugins:',
+		'description': 'These commands are defined by currently installed uecli plugins:',
 		'commands': []
 	}
 ]

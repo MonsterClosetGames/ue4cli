@@ -6,8 +6,8 @@ with open(abspath(join(dirname(__file__), 'README.md')), 'rb') as readmeFile:
 	__readme__ = readmeFile.read().decode('utf-8')
 
 setup(
-	name='ue4cli',
-	version='0.0.52',
+	name='uecli',
+	version='0.0.53',
 	description='Command-line interface for Unreal Engine 4',
 	long_description=__readme__,
 	long_description_content_type='text/markdown',
@@ -20,11 +20,11 @@ setup(
 		'Environment :: Console'
 	],
 	keywords='epic unreal engine',
-	url='http://github.com/adamrehn/ue4cli',
-	author='Adam Rehn',
+	url='https://github.com/MonsterClosetGames/ue4cli',
+	author='Adam Rehn (updated by MonsterCloset)',
 	author_email='adam@adamrehn.com',
 	license='MIT',
-	packages=['ue4cli'],
+	packages=['uecli'],
 	zip_safe=True,
 	python_requires = '>=3.5',
 	install_requires = [
@@ -34,6 +34,6 @@ setup(
 		'wheel>=0.31.0'
 	],
 	entry_points = {
-		'console_scripts': ['ue4=ue4cli.cli:main']
+		'console_scripts': ['ue=uecli.cli:main']
 	}
 )

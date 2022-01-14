@@ -2,6 +2,7 @@ from .ThirdPartyLibraryDetails import PrintingFormat, ThirdPartyLibraryDetails
 from .UnrealManagerException import UnrealManagerException
 from .ConfigurationManager import ConfigurationManager
 from .UE4BuildInterrogator import UE4BuildInterrogator
+from .UE5BuildInterrogator import UE5BuildInterrogator
 from .CachedDataManager import CachedDataManager
 from .CMakeCustomFlags import CMakeCustomFlags
 from .Utility import Utility
@@ -54,7 +55,7 @@ class UnrealManagerBase(object):
 	
 	def getEngineRoot(self):
 		"""
-		Returns the root directory location of the latest installed version of UE4
+		Returns the root directory location of the latest installed version of UE
 		"""
 		if not hasattr(self, '_engineRoot'):
 			self._engineRoot = self._getEngineRoot()
@@ -62,7 +63,7 @@ class UnrealManagerBase(object):
 	
 	def getEngineVersion(self, outputFormat = 'full'):
 		"""
-		Returns the version number of the latest installed version of UE4
+		Returns the version number of the latest installed version of UE
 		"""
 		version = self._getEngineVersionDetails()
 		formats = {
@@ -81,7 +82,7 @@ class UnrealManagerBase(object):
 	
 	def getEngineChangelist(self):
 		"""
-		Returns the compatible Perforce changelist identifier for the latest installed version of UE4
+		Returns the compatible Perforce changelist identifier for the latest installed version of UE
 		"""
 		
 		# Newer versions of the engine use the key "CompatibleChangelist", older ones use "Changelist"
@@ -100,9 +101,13 @@ class UnrealManagerBase(object):
 	
 	def getEditorBinary(self, cmdVersion=False):
 		"""
-		Determines the location of the UE4Editor binary
+		Determines the location of the UEEditor binary
 		"""
-		return os.path.join(self.getEngineRoot(), 'Engine', 'Binaries', self.getPlatformIdentifier(), 'UE4Editor' + self._editorPathSuffix(cmdVersion))
+		version = self._getEngineVersionDetails()
+		if version['MajorVersion'] == 5:
+			return os.path.join(self.getEngineRoot(), 'Engine', 'Binaries', self.getPlatformIdentifier(), 'UnrealEditor' + self._editorPathSuffix(cmdVersion))
+		else:
+			return os.path.join(self.getEngineRoot(), 'Engine', 'Binaries', self.getPlatformIdentifier(), 'UE4Editor' + self._editorPathSuffix(cmdVersion))
 	
 	def getBuildScript(self):
 		"""
@@ -176,7 +181,7 @@ class UnrealManagerBase(object):
 		"""
 		Lists the supported Unreal-bundled third-party libraries
 		"""
-		interrogator = self._getUE4BuildInterrogator()
+		interrogator = self._getBuildInterrogator()
 		return interrogator.list(self.getPlatformIdentifier(), configuration, self._getLibraryOverrides())
 	
 	def getThirdpartyLibs(self, libs, configuration = 'Development', includePlatformDefaults = True):
@@ -185,7 +190,7 @@ class UnrealManagerBase(object):
 		"""
 		if includePlatformDefaults == True:
 			libs = self._defaultThirdpartyLibs() + libs
-		interrogator = self._getUE4BuildInterrogator()
+		interrogator = self._getBuildInterrogator()
 		return interrogator.interrogate(self.getPlatformIdentifier(), configuration, libs, self._getLibraryOverrides())
 	
 	def getThirdPartyLibCompilerFlags(self, libs):
@@ -350,7 +355,14 @@ class UnrealManagerBase(object):
 			self.buildTarget('ShaderCompileWorker', 'Development', [], suppressOutput)
 		
 		# Generate the arguments to pass to UBT
-		target = self.getDescriptorName(descriptor) + target if self.isProject(descriptor) else 'UE4Editor'
+		
+		version = self._getEngineVersionDetails()
+		if version['MajorVersion'] == 5:
+			editor = 'UnrealEditor'
+		else:
+			editor = 'UE4Editor'
+
+		target = self.getDescriptorName(descriptor) + target if self.isProject(descriptor) else editor
 		baseArgs = ['-{}='.format(descriptorType) + descriptor]
 		
 		# Perform the build
@@ -633,7 +645,7 @@ class UnrealManagerBase(object):
 	
 	def _editorPathSuffix(self, cmdVersion):
 		"""
-		Returns the suffix for the path to the UE4Editor binary
+		Returns the suffix for the path to the UEEditor binary
 		"""
 		pass
 	
@@ -678,10 +690,14 @@ class UnrealManagerBase(object):
 		else:
 			Utility.run(arguments, cwd=self.getEngineRoot(), raiseOnError=True)
 	
-	def _getUE4BuildInterrogator(self):
+	def _getBuildInterrogator(self):
 		"""
-		Uses UE4BuildInterrogator to interrogate UnrealBuildTool about third-party library details
+		Uses BuildInterrogator to interrogate UnrealBuildTool about third-party library details
 		"""
 		ubtLambda = lambda target, platform, config, args: self._runUnrealBuildTool(target, platform, config, args, True)
-		interrogator = UE4BuildInterrogator(self.getEngineRoot(), self._getEngineVersionDetails(), self._getEngineVersionHash(), ubtLambda)
+		version = self._getEngineVersionDetails()
+		if version['MajorVersion'] == 5:
+			interrogator = UE5BuildInterrogator(self.getEngineRoot(), self._getEngineVersionDetails(), self._getEngineVersionHash(), ubtLambda)
+		else:	
+			interrogator = UE4BuildInterrogator(self.getEngineRoot(), self._getEngineVersionDetails(), self._getEngineVersionHash(), ubtLambda)
 		return interrogator

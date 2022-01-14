@@ -9,18 +9,18 @@ class ConfigurationManager(object):
 	@staticmethod
 	def getConfigDirectory():
 		"""
-		Determines the platform-specific config directory location for ue4cli
+		Determines the platform-specific config directory location for uecli
 		"""
 		
 		# If an explicit override was specified for the config directory location then use that
-		if 'UE4CLI_CONFIG_DIR' in os.environ:
-			return os.environ['UE4CLI_CONFIG_DIR']
+		if 'UECLI_CONFIG_DIR' in os.environ:
+			return os.environ['UECLI_CONFIG_DIR']
 		
 		# Use the appropriate configuration directory for the host platform
 		if platform.system() == 'Windows':
-			return os.path.join(os.environ['APPDATA'], 'ue4cli')
+			return os.path.join(os.environ['APPDATA'], 'uecli')
 		else:
-			return os.path.join(os.environ['HOME'], '.config', 'ue4cli')
+			return os.path.join(os.environ['HOME'], '.config', 'uecli')
 	
 	@staticmethod
 	def getConfigKey(key):

@@ -3,20 +3,20 @@ import pkg_resources
 
 class PluginManager:
 	"""
-	Provides functionality to detect ue4cli plugins
+	Provides functionality to detect uecli plugins
 	"""
 	
 	@staticmethod
 	def getPlugins():
 		"""
-		Returns the list of valid ue4cli plugins
+		Returns the list of valid uecli plugins
 		"""
 		
-		# Retrieve the list of detected entry points in the ue4cli.plugins group
+		# Retrieve the list of detected entry points in the uecli.plugins group
 		plugins = {
 			entry_point.name: entry_point.load()
 			for entry_point
-			in pkg_resources.iter_entry_points('ue4cli.plugins')
+			in pkg_resources.iter_entry_points('uecli.plugins')
 		}
 		
 		# Filter out any invalid plugins
