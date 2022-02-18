@@ -365,8 +365,13 @@ class UnrealManagerBase(object):
 		target = self.getDescriptorName(descriptor) + target if self.isProject(descriptor) else editor
 		baseArgs = ['-{}='.format(descriptorType) + descriptor]
 		
+		# Prevent the user from specifying multiple `-platform=` or `-targetplatform=` arguments,
+		# and use the current host platform if no platform argument was explicitly specified
+		platformArgs = Utility.findArgs(args, ['-platform=', '-targetplatform='])
+		platform = Utility.getArgValue(platformArgs[0]) if len(platformArgs) > 0 else self.getPlatformIdentifier()
+        
 		# Perform the build
-		self._runUnrealBuildTool(target, self.getPlatformIdentifier(), configuration, baseArgs + args, suppressOutput)
+		self._runUnrealBuildTool(target, platform, configuration, baseArgs + args, suppressOutput)
 	
 	def buildTarget(self, target, configuration='Development', args=[], suppressOutput=False):
 		"""
