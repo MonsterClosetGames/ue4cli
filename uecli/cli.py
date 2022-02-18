@@ -1,7 +1,7 @@
 from collections import OrderedDict
-from PluginManager import PluginManager
-from UnrealManagerException import UnrealManagerException
-from UnrealManagerFactory import UnrealManagerFactory
+from .PluginManager import PluginManager
+from .UnrealManagerException import UnrealManagerException
+from .UnrealManagerFactory import UnrealManagerFactory
 import os, sys
 
 # Our list of supported commands

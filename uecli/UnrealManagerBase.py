@@ -1,11 +1,11 @@
-from ThirdPartyLibraryDetails import PrintingFormat, ThirdPartyLibraryDetails
-from UnrealManagerException import UnrealManagerException
-from ConfigurationManager import ConfigurationManager
-from UE4BuildInterrogator import UE4BuildInterrogator
-from UE5BuildInterrogator import UE5BuildInterrogator
-from CachedDataManager import CachedDataManager
-from CMakeCustomFlags import CMakeCustomFlags
-from Utility import Utility
+from .ThirdPartyLibraryDetails import PrintingFormat, ThirdPartyLibraryDetails
+from .UnrealManagerException import UnrealManagerException
+from .ConfigurationManager import ConfigurationManager
+from .UE4BuildInterrogator import UE4BuildInterrogator
+from .UE5BuildInterrogator import UE5BuildInterrogator
+from .CachedDataManager import CachedDataManager
+from .CMakeCustomFlags import CMakeCustomFlags
+from .Utility import Utility
 import glob, hashlib, json, os, re, shutil, sys
 
 class UnrealManagerBase(object):
