@@ -380,7 +380,12 @@ class UnrealManagerBase(object):
 		"""
 		projectFile = self.getProjectDescriptor(dir) if dir is not None else ''
 		extraFlags = ['-debug'] + args if debug == True else args
-		Utility.run([self.getEditorBinary(True), projectFile] + extraFlags + ['-stdout', '-FullStdOutLogOutput'], raiseOnError=True)
+
+		# don't tell unreal to output everything to stdout if extra args override logs verbosity
+		if(not any("-LogCmds" in string for string in args)):
+			extraFlags += ['-stdout', 'FullStdOutLogOutput']
+
+		Utility.run([self.getEditorBinary(True), projectFile] + extraFlags, raiseOnError=True)
 	
 	def runUAT(self, args):
 		"""
