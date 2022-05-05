@@ -441,9 +441,8 @@ class UnrealManagerBase(object):
 			extraArgs.append('-allmaps')
 		
 		# Automatically set the archive directory if the user has not explicitly specified one
-		#if (len(Utility.findArgs(extraArgs, ['-archivedirectory='])) == 0):
-		#	extraArgs.extend(['-archivedirectory=' + os.path.join(os.path.abspath(dir), 'dist')])
-		# Remove the automatic archiving of staged build
+		if (len(Utility.findArgs(extraArgs, ['-archivedirectory='])) == 0):
+			extraArgs.extend(['-archivedirectory=' + os.path.join(os.path.abspath(dir), 'dist')])
 		
 		# Invoke UAT to package the build
 		self.runUAT([
@@ -458,7 +457,8 @@ class UnrealManagerBase(object):
 			'-build',
 			'-stage',
 			'-prereqs',
-			pakArg
+			pakArg,
+			'-archive'
 		])
 	
 	def packagePlugin(self, dir=os.getcwd(), extraArgs=[]):
