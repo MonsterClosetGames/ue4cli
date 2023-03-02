@@ -331,6 +331,10 @@ class UnrealManagerBase(object):
 		Builds the editor modules for the Unreal project or plugin in the specified directory, using the specified build configuration
 		"""
 		
+		# just a quick hack to properly support the Game target
+		if(target == 'Game'):
+			target = ''
+		
 		# Verify that an Unreal project or plugin exists in the specified directory
 		descriptor = self.getDescriptor(dir)
 		descriptorType = 'project' if self.isProject(descriptor) else 'plugin'
