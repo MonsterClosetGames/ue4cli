@@ -5,12 +5,12 @@ from .Utility import Utility
 import re, os
 
 # Details for libc++
-LIBCXX_LIBDIR = '%UE4_ROOT%/Engine/Source/ThirdParty/Linux/LibCxx/lib/Linux/x86_64-unknown-linux-gnu'
+LIBCXX_LIBDIR = '%UE4_ROOT%/Engine/Source/ThirdParty/Unix/LibCxx/lib/Unix/x86_64-unknown-linux-gnu'
 LIBCXX_DETAILS_OVERRIDE = ThirdPartyLibraryDetails(
 	prefixDirs  = [],
 	includeDirs = [
-		'%UE4_ROOT%/Engine/Source/ThirdParty/Linux/LibCxx/include',
-		'%UE4_ROOT%/Engine/Source/ThirdParty/Linux/LibCxx/include/c++/v1'
+		'%UE4_ROOT%/Engine/Source/ThirdParty/Unix/LibCxx/include',
+		'%UE4_ROOT%/Engine/Source/ThirdParty/Unix/LibCxx/include/c++/v1'
 	],
 	linkDirs    = [LIBCXX_LIBDIR],
 	libs        = ['{}/libc++.a'.format(LIBCXX_LIBDIR), '{}/libc++abi.a'.format(LIBCXX_LIBDIR), '-lm', '-lc', '-lgcc_s', '-lgcc'],
@@ -26,15 +26,15 @@ class UnrealManagerLinux(UnrealManagerUnix):
 	
 	def _detectEngineRoot(self):
 		
-		# If UE4Editor is available in the PATH, use its location to detect the root directory path
-		editorLoc = Utility.capture(['which', 'UE4Editor']).stdout.strip()
+		# If UnrealEditor is available in the PATH, use its location to detect the root directory path
+		editorLoc = Utility.capture(['which', 'UnrealEditor']).stdout.strip()
 		if editorLoc != '':
 			editorLoc = os.path.dirname(os.path.realpath(editorLoc))
 			return os.path.abspath(editorLoc + '/../../..')
 		
-		# Under Debian-based systems, we can use the desktop integration to find UE4Editor
+		# Under Debian-based systems, we can use the desktop integration to find UnrealEditor
 		potentialLauncherPaths = [
-			os.path.join(os.environ['HOME'], '.local', 'share', 'applications', 'UE4Editor.desktop'),
+			os.path.join(os.environ['HOME'], '.local', 'share', 'applications', 'UnrealEditor.desktop'),
 			os.path.join(os.environ['HOME'], '.local', 'share', 'applications', 'com.epicgames.UnrealEngineEditor.desktop')
 		]
 		for launcherPath in potentialLauncherPaths:

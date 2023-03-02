@@ -26,7 +26,7 @@ class JsonDataManager(object):
 		"""
 		Retrieves the entire data dictionary
 		"""
-		if os.path.exists(self.jsonFile):
+		if os.path.exists(self.jsonFile) and os.path.getsize(self.jsonFile) > 0:
 			return json.loads(Utility.readFile(self.jsonFile))
 		else:
 			return {}
