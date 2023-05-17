@@ -440,7 +440,7 @@ class UnrealManagerBase(object):
 		
 		# Include the `-allmaps` flag if we are building a client target and haven't specified a list of maps
 		buildingClient = (len(Utility.findArgs(extraArgs, ['-noclient'])) == 0)
-		specifiedMaps = (len(Utility.findArgs(extraArgs, ['-MapsToCook', '-MapIniSectionsToCook'])) > 0)
+		specifiedMaps = (len(Utility.findArgs(extraArgs, ['-MapsToCook', '-MapIniSectionsToCook', '-Map'])) > 0)
 		if buildingClient == True and specifiedMaps == False:
 			extraArgs.append('-allmaps')
 		
