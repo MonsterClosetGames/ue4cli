@@ -391,8 +391,9 @@ class UnrealManagerBase(object):
 		extraFlags = ['-debug'] + args if debug == True else args
 
 		# don't tell unreal to output everything to stdout if extra args override logs verbosity
+		extraFlags += ['-stdout']
 		if(not any("-LogCmds" in string for string in args)):
-			extraFlags += ['-stdout', 'FullStdOutLogOutput']
+			extraFlags += ['-FullStdOutLogOutput']
 
 		Utility.run([self.getEditorBinary(True), projectFile] + extraFlags, raiseOnError=True)
 	
